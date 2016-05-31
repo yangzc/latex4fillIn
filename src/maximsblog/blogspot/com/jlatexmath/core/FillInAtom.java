@@ -106,6 +106,24 @@ public class FillInAtom extends Atom {
 			return mRectF;
 		}
 
+		public void setText(String text){
+			if (cf != null) {
+				cf.c = text;
+			}
+			if (cString != null) {
+				cString.setText(text);
+			}
+			//update width
+			width = cString.getWidth();
+		}
+
+		public String getText(){
+			if (cf != null) {
+				return cf.c;
+			}
+			return "";
+		}
+
 		private boolean focus;
 		public void setFocus(boolean focus){
 			this.focus = focus;

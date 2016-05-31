@@ -3,6 +3,8 @@ package maximsblog.blogspot.com.jlatexmath;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -48,6 +50,25 @@ public class LatexView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        relayout();
+    }
+
+    private RectF mRectF = new RectF();
+    Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.drawColor(Color.WHITE);
+        if (mTexIcon != null) {
+            mRectF.set(0, 0, mTexIcon.getTrueIconWidth(), mTexIcon.getTrueIconHeight());
+            mPaint.setStyle(Paint.Style.STROKE);
+            canvas.drawRect(mRectF, mPaint);
+
+            mTexIcon.paintIcon(canvas, 0, 0);
+        }
+    }
+
+    private void relayout(){
         if (mBuilder != null) {
             mBuilder.setWidth(TeXConstants.UNIT_PIXEL, getWidth(), TeXConstants.ALIGN_LEFT);
             mBuilder.setIsMaxWidth(true);
@@ -56,15 +77,6 @@ public class LatexView extends View {
         }
         mTexIcon = mBuilder.build();
         mTexIcon.setInsets(new Insets(5, 5, 5, 5));
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawColor(Color.WHITE);
-        if (mTexIcon != null) {
-            mTexIcon.paintIcon(canvas, 0, 0);
-        }
     }
 
     private FillInAtom.FillInBox mFocusFillIn = null;
@@ -81,12 +93,13 @@ public class LatexView extends View {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
             {
+                Log.v("yangzc", "width:" + mTexIcon.getTrueIconWidth() + ", height:" + mTexIcon.getTrueIconHeight());
                 Log.v("yangzc", "x: " + x + ", y: " + y);
                 FillInAtom.FillInBox fillInBox = mTexIcon.getBox().getFillInBox(x, y);
-                if (mFocusFillIn != null) {
-                    mFocusFillIn.setFocus(false);
-                }
                 if (fillInBox != null) {
+                    if (mFocusFillIn != null) {
+                        mFocusFillIn.setFocus(false);
+                    }
                     fillInBox.setFocus(true);
                     mFocusFillIn = fillInBox;
                 }
@@ -95,5 +108,9 @@ public class LatexView extends View {
             }
         }
         return true;
+    }
+
+    public FillInAtom.FillInBox getCurrentFillIn(){
+        return mFocusFillIn;
     }
 }

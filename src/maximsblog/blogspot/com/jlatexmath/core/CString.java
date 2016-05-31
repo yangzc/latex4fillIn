@@ -7,7 +7,7 @@ import android.graphics.Typeface;
 
 public class CString {
 
-	private final String c;
+	private String c;
 	private final Typeface font;
 	private final Metrics m;
 	private final int fontCode;
@@ -56,6 +56,10 @@ public class CString {
 
 	public Metrics getMetrics() {
 		return m;
+	}
+
+	public void setText(String text){
+		this.c = text;
 	}
 
 }

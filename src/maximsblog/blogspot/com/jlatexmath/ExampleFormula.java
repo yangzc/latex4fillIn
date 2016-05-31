@@ -56,7 +56,8 @@ public class ExampleFormula {
     + "\\end{array}";
 	
 //	private static String mExample4 = "\\lim_{x \\to \\infty} \\left(1 + \\frac{1}{n} \\right)^n = e ";
-	private static String mExample4 = "\\frac{1}{\\fillin{123}}*\\frac{1}{\\fillin{123}}*\\frac{1}{\\fillin{123}}*\\frac{1}{\\fillin{123}}";
+	private static String mExample4 = "\\frac{1}{\\fillin{123}}*\\frac{1}{\\fillin{123}}\\\\\\frac{1}{\\fillin{123}}*\\frac{1}{\\fillin{123}}*\\frac{1}{\\fillin{123}}";
+//	private static String mExample4 = "\\frac{1}{123}*\\frac{1}{123}";
 	
 	private static String mExample5 = "\\begin{array}{|c|l|||r|c|}"
 	+ "\\hline"

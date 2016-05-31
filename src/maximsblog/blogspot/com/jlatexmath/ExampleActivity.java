@@ -1,31 +1,10 @@
 package maximsblog.blogspot.com.jlatexmath;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Random;
-
-import maximsblog.blogspot.com.jlatexmath.core.Insets;
-import maximsblog.blogspot.com.jlatexmath.core.TeXConstants;
-import maximsblog.blogspot.com.jlatexmath.core.TeXFormula;
-import maximsblog.blogspot.com.jlatexmath.core.TeXIcon;
 import maximsblog.blogspot.com.jlatexmath.core.AjLatexMath;
-import maximsblog.blogspot.com.jlatexmath.core.TeXFormula.TeXIconBuilder;
-import android.app.Activity;
-import android.app.Fragment;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
+
 import android.os.Bundle;
-import android.os.Environment;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -63,7 +42,7 @@ public class ExampleActivity extends FragmentActivity implements
 		@Override
 		public android.support.v4.app.Fragment getItem(int position) {
 			if(position == 0)
-				return AboutFragment.newInstance();
+				return LatexFragment.newInstance();
 			else
 				return ExampleFragment
 					.newInstance(mExamples[position], position );
