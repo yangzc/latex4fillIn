@@ -31,7 +31,7 @@ public class ExampleFragment extends Fragment implements OnClickListener {
 
 	private ImageView mImageView;
 	private String mLatex;
-	private float mTextSize = 16;
+	private float mTextSize = 30;
 	private int mTag;
 	private EditText mSizeText;
 
@@ -69,6 +69,7 @@ public class ExampleFragment extends Fragment implements OnClickListener {
 				R.layout.fragment_example, container, false);
 		mImageView = (ImageView) layout.findViewById(R.id.logo);
 		mSizeText = (EditText) layout.findViewById(R.id.size);
+		mSizeText.setText(mTextSize + "");
 		layout.findViewById(R.id.set_textsize).setOnClickListener(this);
 		setformula();
 

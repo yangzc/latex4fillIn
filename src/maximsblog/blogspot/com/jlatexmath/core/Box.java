@@ -31,15 +31,12 @@
 
 package maximsblog.blogspot.com.jlatexmath.core;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.view.MotionEvent;
-import android.view.View.OnTouchListener;
+
+import java.util.LinkedList;
 
 /**
  * An abstract graphical representation of a formula, that can be painted. All
@@ -346,16 +343,24 @@ public abstract class Box {
 	protected void endDraw(Canvas g2) {
 		AjLatexMath.getPaint().setColor(prevColor);
 	}
-	
-	public void onTouch(MotionEvent event){}
-	
-	public void dispatchTouchEvent(MotionEvent event){
-		if (children != null) {
+
+	public FillInAtom.FillInBox getFillInBox(float x, float y){
+		if (children != null && !children.isEmpty()) {
 			for (int i = 0; i < children.size(); i++) {
-				children.get(i).dispatchTouchEvent(event);
+				Box box = children.get(i);
+				FillInAtom.FillInBox fillIn = box.getFillInBox(x, y);
+				if (fillIn != null) {
+					return fillIn;
+				}
 			}
 		} else {
-			onTouch(event);
+			if (this instanceof FillInAtom.FillInBox) {
+				FillInAtom.FillInBox fillInBox = (FillInAtom.FillInBox) this;
+				if (fillInBox.getVisibleRect().contains(x, y)) {
+					return fillInBox;
+				}
+			}
 		}
+		return null;
 	}
 }

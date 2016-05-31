@@ -14,12 +14,8 @@ public class AboutFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view =  inflater.inflate(R.layout.fragment_about,container, false);
-		TextView t = (TextView) view.findViewById(R.id.note_text);
-		t.setText(getResources().getText(R.string.about_text));
-		t.setGravity(Gravity.CENTER);
-		Linkify.addLinks(t, Linkify.ALL);
-		t.setMovementMethod(LinkMovementMethod.getInstance());
+		LatexView view =  new LatexView(getActivity());
+		view.setFormula(ExampleFormula.getFormulaArray()[0]);
 		return view;
 	}
 

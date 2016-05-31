@@ -226,6 +226,10 @@ public class TeXIcon {
 		return box;
 	}
 
+	public float getSize(){
+		return size;
+	}
+
 	/**
 	 * Paint the {@link TeXFormula} that created this icon.
 	 */

@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.util.Log;
 
 public class FillInAtom extends Atom {
 
@@ -60,9 +61,14 @@ public class FillInAtom extends Atom {
 			height = c.getHeight();
 			depth = c.getDepth();
 		}
+
+		private float mX, mY;
 		
 		@Override
 		public void draw(Canvas g2, float x, float y) {
+			this.mX = x;
+			this.mY = y;
+
 			drawDebug(g2, x, y);
 			g2.save();
 			g2.translate(x, y);
@@ -75,10 +81,12 @@ public class FillInAtom extends Atom {
 			st.setTypeface(font);
 			st.setAntiAlias(true);
 			st.setStrokeWidth(0);
-			
-			mRect.set(0, -(height), (int)width, 0);
-			st.setStyle(Style.STROKE);
-			g2.drawRect(mRect, st);
+
+			if (focus) {
+				mRect.set(0, -(height) - 0.5f, (int)width, 0.5f);
+				st.setStyle(Style.STROKE);
+				g2.drawRect(mRect, st);
+			}
 
 			st.setStyle(Style.FILL);
 			g2.drawText(cf.c, 0.0f, -0.0f, st);
@@ -89,6 +97,18 @@ public class FillInAtom extends Atom {
 		public int getLastFontId() {
 			return cf.fontId;
 		}
-		
+
+		private RectF mRectF = new RectF();
+
+		public RectF getVisibleRect() {
+			mRectF.set(mX, mY - height - 0.5f, mX + width, mY + 0.5f);
+			Log.v("yangzc", mRectF.toString());
+			return mRectF;
+		}
+
+		private boolean focus;
+		public void setFocus(boolean focus){
+			this.focus = focus;
+		}
 	}
 }

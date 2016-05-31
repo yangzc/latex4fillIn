@@ -62,9 +62,9 @@ public class ExampleActivity extends FragmentActivity implements
 
 		@Override
 		public android.support.v4.app.Fragment getItem(int position) {
-//			if(position == 0)
-//				return AboutFragment.newInstance();
-//			else
+			if(position == 0)
+				return AboutFragment.newInstance();
+			else
 				return ExampleFragment
 					.newInstance(mExamples[position], position );
 		}
