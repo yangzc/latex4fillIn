@@ -34,7 +34,7 @@ final class PredefinedCommands {
 	}
 
 	static {
-		MacroInfo.Commands.put("fillin", new PredefMacroInfo(Integer.MAX_VALUE, 1));
+		MacroInfo.Commands.put("fillin", new PredefMacroInfo(Integer.MAX_VALUE, 2));
 		
 		MacroInfo.Commands.put("newcommand", new PredefMacroInfo(0, 2, 2));
 		MacroInfo.Commands.put("renewcommand", new PredefMacroInfo(1, 2, 2));

@@ -2327,6 +2327,6 @@ public class PredefMacros {
 	
 	public static final Atom fillIn_macro(final TeXParser tp, final String[] args)
 			throws ParseException {
-		return new FillInAtom(args[1]);
+		return new FillInAtom(args[1], args[2]);
 	}
 }

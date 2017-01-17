@@ -3,7 +3,6 @@ package maximsblog.blogspot.com.jlatexmath;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,21 +51,30 @@ public class LatexFragment extends Fragment {
         public void onClick(View v) {
             if (v != null && v instanceof TextView) {
                 TextView textView = (TextView) v;
-                FillInAtom.FillInBox fillInBox = mLatexView.getCurrentFillIn();
+                FillInAtom.FillInBox fillInBox = mLatexView.getFocusFillIn();
                 if (fillInBox == null)
                     return;
 
-                String text = textView.getText().toString();
+                String latex = mLatexView.getLatex();
+                String index = fillInBox.getIndex();
                 String currentText = fillInBox.getText();
+
+                String text = textView.getText().toString();
                 if ("删除".equals(text)) {
                     if (TextUtils.isEmpty(currentText))
                         return;
-                    fillInBox.setText(currentText.substring(0, currentText.length() -1));
+
+                    mLatexView.setFormula(latex.replace("fillin{" + index +"}{" + currentText + "}",
+                            "fillin{" + index +"}{" + currentText.substring(0, currentText.length() -1) + "}"));
+//                    fillInBox.setText(currentText.substring(0, currentText.length() -1));
                 } else {
-                    fillInBox.setText(currentText + text);
+//                    fillInBox.setText(currentText + text);
+                    mLatexView.setFormula(latex.replace("fillin{" + index +"}{" + currentText + "}",
+                            "fillin{" + index +"}{" + currentText + text + "}"));
                 }
+                mLatexView.relayout();
+                mLatexView.postInvalidate();
             }
-            mLatexView.postInvalidate();
         }
     };
 }

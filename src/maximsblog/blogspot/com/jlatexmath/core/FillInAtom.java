@@ -12,10 +12,12 @@ import android.util.Log;
 
 public class FillInAtom extends Atom {
 
+	private String mIndex;
 	private String mText;
 	private String textStyle;
 
-	public FillInAtom(String text) {
+	public FillInAtom(String index, String text) {
+		this.mIndex = index;
 		this.mText = text;
 	}
 
@@ -29,7 +31,7 @@ public class FillInAtom extends Atom {
 		}
 		boolean smallCap = env.getSmallCap();
 		CString ch = getString(env.getTeXFont(), env.getStyle(), smallCap);
-		Box box = new FillInBox(ch);
+		Box box = new FillInBox(mIndex, ch);
 		if (smallCap && Character.isLowerCase('0')) {
 			// We have a small capital
 			box = new ScaleBox(box, 0.8f, 0.8f);
@@ -47,14 +49,16 @@ public class FillInAtom extends Atom {
 
 	public static class FillInBox extends Box {
 
+		private static String mFocusIndex;
+
 		private final CStringFont cf;
 		private final float size;
-		private CString cString;
 		private RectF mRect = new RectF();
+		private String mIndex;
 		
-		public FillInBox(CString c){
+		public FillInBox(String index, CString c){
 			super();
-			this.cString = c;
+			this.mIndex = index;
 			cf = c.getStringFont();
 			size = c.getMetrics().getSize();
 			width = c.getWidth();
@@ -82,7 +86,7 @@ public class FillInAtom extends Atom {
 			st.setAntiAlias(true);
 			st.setStrokeWidth(0);
 
-			if (focus) {
+			if (hasFocus()) {
 				mRect.set(0, -(height) - 0.5f, (int)width, 0.5f);
 				st.setStyle(Style.STROKE);
 				g2.drawRect(mRect, st);
@@ -106,15 +110,19 @@ public class FillInAtom extends Atom {
 			return mRectF;
 		}
 
-		public void setText(String text){
-			if (cf != null) {
-				cf.c = text;
-			}
-			if (cString != null) {
-				cString.setText(text);
-			}
-			//update width
-			width = cString.getWidth();
+//		public void setText(String text){
+//			if (cf != null) {
+//				cf.c = text;
+//			}
+//			if (cString != null) {
+//				cString.setText(text);
+//			}
+//			//update width
+//			width = cString.getWidth();
+//		}
+
+		public String getIndex() {
+			return mIndex;
 		}
 
 		public String getText(){
@@ -124,9 +132,14 @@ public class FillInAtom extends Atom {
 			return "";
 		}
 
-		private boolean focus;
 		public void setFocus(boolean focus){
-			this.focus = focus;
+			if (focus) {
+				mFocusIndex = mIndex;
+			}
+		}
+
+		public boolean hasFocus() {
+			return mIndex != null && mIndex.equals(mFocusIndex);
 		}
 	}
 }

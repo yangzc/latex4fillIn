@@ -363,4 +363,24 @@ public abstract class Box {
 		}
 		return null;
 	}
+
+	public FillInAtom.FillInBox getFocusFillIn(){
+		if (children != null && !children.isEmpty()) {
+			for (int i = 0; i < children.size(); i++) {
+				Box box = children.get(i);
+				FillInAtom.FillInBox fillIn = box.getFocusFillIn();
+				if (fillIn != null) {
+					return fillIn;
+				}
+			}
+		} else {
+			if (this instanceof FillInAtom.FillInBox) {
+				FillInAtom.FillInBox fillInBox = (FillInAtom.FillInBox) this;
+				if (fillInBox.hasFocus()) {
+					return fillInBox;
+				}
+			}
+		}
+		return null;
+	}
 }
